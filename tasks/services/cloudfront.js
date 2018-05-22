@@ -84,7 +84,13 @@ module.exports = function(grunt) {
         }
 
         if(opts.originPath){
-          params.DistributionConfig.Origins.Items[ 0 ].OriginPath = opts.originPath;
+          var origin;
+          if(opts.targetOriginId) {
+            origin = _.select(params.DistributionConfig.Origins.Items, function (originItem) { return originItem['Id'] == opts.targetOrigin; });
+          } else {
+            origin = params.DistributionConfig.Origins.Items[ 0 ];
+          }
+          origin.OriginPath = opts.originPath;
         }
 
         if(opts.defaultRootObject){
